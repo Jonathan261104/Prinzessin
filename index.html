@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Für meine Prinzessin</title>
+<style>
+  :root{
+    --beige1:#f6ecdb;
+    --beige2:#ead9bd;
+    --beige3:#dcc39a;
+    --wine1:#c0304f;
+    --wine2:#a02040;
+    --wine-deep:#8a1a35;
+    --ink:#3a2a20;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0;padding:0;height:100%;width:100%;
+    overflow:hidden;
+    background:linear-gradient(160deg,var(--beige1),var(--beige2) 55%,var(--beige3));
+    font-family:'Georgia','Palatino Linotype',serif;
+    -webkit-user-select:none;user-select:none;
+    touch-action:manipulation;
+    color:var(--ink);
+  }
+  .stage{
+    position:relative;
+    width:100%;height:100%;
+    display:flex;align-items:center;justify-content:center;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+
+  /* ── Sterne ── */
+  .stars{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+  .star{
+    position:absolute;background:var(--wine1);
+    border-radius:50%;opacity:.2;
+    animation:twinkle 3.4s ease-in-out infinite;
+  }
+  @keyframes twinkle{0%,100%{opacity:.06;}50%{opacity:.3;}}
+
+  /* ── INTRO ── */
+  #intro{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:26px;z-index:5;
+    transition:opacity .7s ease,visibility .7s ease;
+  }
+  #intro.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+
+  .hint{
+    color:var(--wine2);font-size:15px;
+    letter-spacing:.06em;
+    animation:pulseText 2.2s ease-in-out infinite;
+    text-align:center;padding:0 24px;
+  }
+  @keyframes pulseText{0%,100%{opacity:.4;}50%{opacity:.9;}}
+
+  /* ── Herz-Button ── */
+  .heart-btn{
+    width:min(52vw,195px);
+    height:min(52vw,195px);
+    cursor:pointer;
+    position:relative;
+    -webkit-tap-highlight-color:transparent;
+    background:none;border:none;padding:0;
+  }
+  .heart-svg{
+    width:100%;height:100%;
+    filter:drop-shadow(0 0 24px rgba(192,48,79,.55));
+    animation:beat 1.35s ease-in-out infinite;
+    transition:transform .6s cubic-bezier(.2,.9,.3,1.4),opacity .6s ease;
+  }
+  @keyframes beat{
+    0%,100%{transform:scale(1);}
+    15%{transform:scale(1.1);}
+    30%{transform:scale(.97);}
+    45%{transform:scale(1.06);}
+    60%{transform:scale(1);}
+  }
+  .heart-svg.shrink{
+    animation:none;
+    transform:scale(0) rotate(15deg);
+    opacity:0;
+  }
+
+  /* ── Flash ── */
+  .flash{
+    position:fixed;top:50%;left:50%;
+    width:10px;height:10px;
+    margin:-5px 0 0 -5px;
+    border-radius:50%;
+    background:var(--beige1);
+    opacity:0;pointer-events:none;z-index:20;
+  }
+  .flash.go{animation:flashPop .85s ease-out forwards;}
+  @keyframes flashPop{
+    0%{width:10px;height:10px;opacity:.95;margin:-5px 0 0 -5px;}
+    55%{opacity:.95;}
+    100%{width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;opacity:0;}
+  }
+
+  /* ── FINALE (Brief) ── */
+  #finale{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;
+    opacity:0;pointer-events:none;z-index:6;
+    transition:opacity .9s ease .35s;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    padding:calc(env(safe-area-inset-top,0px) + 28px) 20px
+            calc(env(safe-area-inset-bottom,0px) + 32px);
+    scroll-behavior:smooth;
+  }
+  #finale.show{opacity:1;pointer-events:auto;}
+
+  /* Überschrift */
+  .headline{
+    font-family:'Brush Script MT','Segoe Script',cursive;
+    color:var(--wine1);
+    text-shadow:0 1px 0 rgba(255,255,255,.4);
+    line-height:1.05;flex-shrink:0;text-align:center;
+  }
+  .headline .l1{
+    display:block;font-size:clamp(26px,8.5vw,48px);
+    opacity:0;transform:translateY(16px);
+    animation:riseIn .8s ease forwards .2s;
+  }
+  .headline .l2{
+    display:block;font-size:clamp(34px,11.5vw,68px);
+    margin-top:2px;color:var(--wine-deep);
+    opacity:0;transform:translateY(16px);
+    animation:riseIn .8s ease forwards .6s;
+  }
+  @keyframes riseIn{to{opacity:1;transform:translateY(0);}}
+
+  /* Brief-Karte */
+  .letter{
+    margin-top:20px;
+    max-width:520px;width:100%;
+    background:rgba(255,250,242,.62);
+    border:1px solid rgba(192,48,79,.16);
+    border-radius:18px;
+    padding:22px 20px 18px;
+    opacity:0;
+    animation:riseIn .9s ease forwards 1s;
+    text-align:left;
+    font-size:clamp(14px,3.5vw,16.5px);
+    line-height:1.78;
+  }
+  .letter p{margin:0 0 14px;}
+  .letter p:last-child{margin-bottom:0;}
+
+  /* Klickbarer Abschluss-Satz */
+  .love-trigger{
+    display:inline-block;
+    color:var(--wine1);
+    font-style:italic;
+    font-weight:bold;
+    cursor:pointer;
+    position:relative;
+    border-bottom:1.5px dashed rgba(192,48,79,.45);
+    transition:color .2s;
+    -webkit-tap-highlight-color:transparent;
+    padding-bottom:1px;
+  }
+  .love-trigger:active{color:var(--wine-deep);}
+  .love-trigger .tap-hint{
+    position:absolute;
+    bottom:calc(100% + 6px);left:50%;
+    transform:translateX(-50%);
+    white-space:nowrap;
+    font-size:11px;font-style:normal;font-weight:normal;
+    color:var(--wine2);
+    background:rgba(255,250,242,.9);
+    border:1px solid rgba(192,48,79,.2);
+    border-radius:20px;
+    padding:3px 10px;
+    pointer-events:none;
+    opacity:0;
+    animation:pulseText 2s ease-in-out infinite 2s;
+  }
+  .sig{
+    display:block;text-align:right;
+    font-style:italic;color:var(--wine1);
+    margin-top:8px;
+  }
+
+  /* Replay */
+  .replay{
+    margin:20px 0 8px;
+    padding:10px 24px;
+    border-radius:999px;
+    border:1px solid rgba(192,48,79,.3);
+    background:rgba(255,250,240,.5);
+    color:var(--wine1);
+    font-size:13px;letter-spacing:.05em;
+    opacity:0;
+    animation:riseIn .8s ease forwards 1.3s;
+    cursor:pointer;flex-shrink:0;
+  }
+
+  /* ── Fliegende Herzen ── */
+  .fx-heart{
+    position:fixed;
+    font-size:22px;
+    pointer-events:none;
+    z-index:30;
+    animation:floatUp linear forwards;
+    color:var(--wine1);
+  }
+  @keyframes floatUp{
+    0%{opacity:0;transform:translateY(0) scale(.6) rotate(0deg);}
+    12%{opacity:.8;}
+    100%{opacity:0;transform:translateY(-80vh) scale(1.1) rotate(25deg);}
+  }
+
+  /* Burst-Herzen vom Tap-Punkt */
+  .burst-heart{
+    position:fixed;
+    pointer-events:none;
+    z-index:31;
+    font-size:18px;
+    color:var(--wine1);
+    animation:burstOut .9s ease-out forwards;
+  }
+  @keyframes burstOut{
+    0%{opacity:1;transform:translate(0,0) scale(.5);}
+    100%{opacity:0;transform:translate(var(--bx),var(--by)) scale(1.3);}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="stars" id="stars"></div>
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div class="heart-btn" id="heartBtn" role="button" aria-label="Öffnen">
+      <svg id="heartSvg" class="heart-svg" viewBox="0 0 100 88" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#e03560"/>
+            <stop offset="100%" stop-color="#8a1a35"/>
+          </linearGradient>
+        </defs>
+        <path d="M50 82 C50 82 8 54 8 28 C8 14 18 6 28 6 C36 6 44 11 50 18 C56 11 64 6 72 6 C82 6 92 14 92 28 C92 54 50 82 50 82 Z"
+              fill="url(#hGrad)"/>
+        <ellipse cx="33" cy="26" rx="10" ry="6.5"
+                 transform="rotate(-25,33,26)"
+                 fill="rgba(255,245,230,.38)"/>
+      </svg>
+    </div>
+    <div class="hint">Tippe auf das Herz ♥</div>
+  </div>
+
+  <!-- Flash -->
+  <div class="flash" id="flash"></div>
+
+  <!-- FINALE / Brief -->
+  <div id="finale">
+    <div class="headline">
+      <span class="l1">Ich liebe dich,</span>
+      <span class="l2">Prinzessin</span>
+    </div>
+
+    <div class="letter" id="letter">
+      <p>Ich liebe dich mehr als alles andere, Prinzessin. Du bist das Beste, was mir je passiert ist, und ich freue mich mehr als alles andere darauf, dich wieder im Arm zu halten. Mit dir im Arm fühle ich mich lebendig und vollständig. Ich bin unfassbar stolz auf dich und so dankbar, dich mein nennen zu dürfen.</p>
+      <p>Vielleicht kann ich irgendwann erahnen, wie sich ein so schönes Wesen wie du gedacht hat, dass es mich so toll findet, dass es sich vollständig für mich fallen lässt – aber bis dahin genieße ich diese Tatsache einfach nur und freue mich über jede Sekunde, die ich mit dir verbringen darf.</p>
+      <p>Auch wenn mir das Fernbeziehungsding kolossal auf die Nerven geht, weil ich den ganzen Tag nichts anderes tun möchte, als dich ganz nah an mich zu ziehen, dich zu streicheln und vielleicht noch ein, zwei andere Dinge mit dir anzustellen, auf die ich am Freitag intensiver eingehen werde, freue ich mich auch ein Stück weit darüber, dass das eine weitere Erfahrung ist, die wir beide zum ersten Mal zusammen machen können. Dinge mit dir zum ersten Mal zu tun, ist noch spannender, lustiger und schöner, als sie allein zu machen, und du gibst mir zusätzlich so viel Halt, dass ich mich vor dem Ungewissen nicht mehr fürchte.</p>
+      <p>Ich freue mich so sehr, dass wir uns so früh gefunden haben und noch so viel zum ersten Mal miteinander erleben werden. Selbst wenn nicht alles davon schön wird, wird es mit dir schöner als allein. Dich in meiner Zukunft zu wissen, gibt mir mehr Vorfreude auf alles, was noch kommt, als du dir vorstellen kannst, meine Prinzessin.</p>
+      <p>Ich bin so froh, für immer deine kleinen Kicherattacken zu hören, wenn ich dich mit Küssen überhäufe, um dich ganz für mich zu haben. Oder dein kleines Zucken im Rücken, wenn du wieder kitzelig wirst. Oder das genervte „JONNYYYY", wenn ich dich auch mal ein bisschen nerve … Ohne dich würde sich mein Bizeps auch nach deinen Zähnen sehnen, mein Rücken nach deinen Händen und meine Lippen nach deinen.</p>
+      <p>Ich weiß nicht, wie ich die vier Monate überleben soll, aber ich weiß, dass ich es schaffe, weil du dabei bist.</p>
+      <p>
+        <span class="love-trigger" id="loveTrigger">
+          Ich liebe dich, meine Prinzessin.
+          <span class="tap-hint">Tippe mich ♥</span>
+        </span>
+        <span class="sig">Dein Jonny</span>
+      </p>
+    </div>
+
+    <div class="replay" id="replay">↺ noch einmal</div>
+  </div>
+</div>
+
+<script>
+(function(){
+
+  /* ── Sterne ── */
+  var starsEl = document.getElementById('stars');
+  for(var i = 0; i < 36; i++){
+    var s = document.createElement('div');
+    s.className = 'star';
+    s.style.left = (Math.random()*100)+'%';
+    s.style.top  = (Math.random()*100)+'%';
+    s.style.animationDelay = (Math.random()*3.5)+'s';
+    var sz = (1+Math.random()*2.2)+'px';
+    s.style.width = s.style.height = sz;
+    starsEl.appendChild(s);
+  }
+
+  var heartBtn    = document.getElementById('heartBtn');
+  var heartSvg    = document.getElementById('heartSvg');
+  var flash       = document.getElementById('flash');
+  var intro       = document.getElementById('intro');
+  var finale      = document.getElementById('finale');
+  var loveTrigger = document.getElementById('loveTrigger');
+  var replay      = document.getElementById('replay');
+  var opened      = false;
+
+  /* ── Herz öffnen ── */
+  function openHeart(e){
+    if(e) e.preventDefault();
+    if(opened) return;
+    opened = true;
+
+    heartSvg.classList.add('shrink');
+
+    setTimeout(function(){ flash.classList.add('go'); }, 280);
+
+    setTimeout(function(){
+      intro.classList.add('hidden');
+      finale.classList.add('show');
+      // Scroll-Hinweis kurz nach Öffnen anzeigen
+      setTimeout(function(){
+        var hint = loveTrigger.querySelector('.tap-hint');
+        if(hint) hint.style.opacity = '1';
+      }, 2200);
+    }, 750);
+  }
+
+  heartBtn.addEventListener('click',      openHeart);
+  heartBtn.addEventListener('touchstart', openHeart, {passive:false});
+
+  /* ── Herzen vom Trigger ── */
+  var emojis = ['♥','❤','♡','💕'];
+
+  function spawnBurst(cx, cy){
+    // Burst-Herzen direkt vom Tipp-Punkt
+    for(var i = 0; i < 10; i++){
+      (function(idx){
+        setTimeout(function(){
+          var h = document.createElement('div');
+          h.className = 'burst-heart';
+          var angle = (idx / 10) * Math.PI * 2;
+          var dist  = 40 + Math.random() * 55;
+          h.style.setProperty('--bx', (Math.cos(angle)*dist)+'px');
+          h.style.setProperty('--by', (Math.sin(angle)*dist - 20)+'px');
+          h.style.left = cx + 'px';
+          h.style.top  = cy + 'px';
+          h.style.fontSize = (13 + Math.random()*12)+'px';
+          h.style.animationDuration = (.6 + Math.random()*.5)+'s';
+          h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+          document.body.appendChild(h);
+          setTimeout(function(){ if(h.parentNode) h.remove(); }, 1200);
+        }, idx * 40);
+      })(i);
+    }
+  }
+
+  function spawnFloating(){
+    // Aufsteigende Herzen über den ganzen Bildschirm
+    for(var i = 0; i < 22; i++){
+      (function(delay){
+        setTimeout(function(){
+          var h = document.createElement('div');
+          h.className = 'fx-heart';
+          h.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+          h.style.left     = (5 + Math.random()*90)+'%';
+          h.style.bottom   = '0px';
+          h.style.fontSize = (14 + Math.random()*20)+'px';
+          var dur = 4 + Math.random()*3.5;
+          h.style.animationDuration = dur+'s';
+          h.style.animationDelay    = '0s';
+          document.body.appendChild(h);
+          setTimeout(function(){ if(h.parentNode) h.remove(); }, dur*1000+200);
+        }, delay);
+      })(i * 130);
+    }
+  }
+
+  function onLoveTap(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Koordinaten des Tipps
+    var cx, cy;
+    if(e.touches && e.touches.length){
+      cx = e.touches[0].clientX;
+      cy = e.touches[0].clientY;
+    } else {
+      cx = e.clientX;
+      cy = e.clientY;
+    }
+
+    spawnBurst(cx, cy);
+    spawnFloating();
+
+    // Kurze Puls-Animation auf dem Text
+    loveTrigger.style.transition = 'transform .15s ease';
+    loveTrigger.style.transform  = 'scale(1.12)';
+    setTimeout(function(){
+      loveTrigger.style.transform = 'scale(1)';
+    }, 180);
+  }
+
+  loveTrigger.addEventListener('click',      onLoveTap);
+  loveTrigger.addEventListener('touchstart', onLoveTap, {passive:false});
+
+  /* ── Replay ── */
+  replay.addEventListener('click', function(){
+    document.querySelectorAll('.fx-heart,.burst-heart').forEach(function(el){
+      if(el.parentNode) el.remove();
+    });
+    finale.classList.remove('show');
+    finale.scrollTop = 0;
+    flash.classList.remove('go');
+    heartSvg.classList.remove('shrink');
+    opened = false;
+    void heartSvg.offsetWidth;
+    intro.classList.remove('hidden');
+  });
+
+})();
+</script>
+</body>
+</html>

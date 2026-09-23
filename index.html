@@ -410,7 +410,6 @@
     }, 3000);
   }
 
-  /* ── Herz-Click-Handler ── */
   function handleHeartClick(e){
     e.preventDefault();
     e.stopPropagation();
@@ -445,6 +444,7 @@
         heartSvg.style.transform = 'scale(1)';
       }, 180);
 
+      // ✅ Öffne das Finale jetzt **nicht mehr hier** – nur nach 10 Klicks
       return;
     }
 
@@ -475,6 +475,10 @@
     // Wenn 10 Klicks erreicht → Erfolg!
     if(clickCount >= maxClicks){
       if (timerId) clearTimeout(timerId);
+
+      // ✅ Öffne das Finale **hier** – **nach 10 Klicks**
+      intro.classList.add('hidden');
+      finale.classList.add('show');
 
       // ✅ Kompliment anzeigen
       const randomIndex = Math.floor(Math.random() * compliments.length);

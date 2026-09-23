@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Für meine Prinzessin</title>
+<title>Herz-Drück-Game</title>
 <style>
   :root{
     --beige1:#f6ecdb;
@@ -102,7 +102,7 @@
     100%{width:170vmax;height:170vmax;margin:-85vmax 0 0 -85vmax;opacity:0;}
   }
 
-  /* ── FINALE (Brief) ── */
+  /* ── FINALE (Kompliment) ── */
   #finale{
     position:absolute;inset:0;
     display:flex;flex-direction:column;align-items:center;
@@ -136,8 +136,8 @@
   }
   @keyframes riseIn{to{opacity:1;transform:translateY(0);}}
 
-  /* Brief-Karte */
-  .letter{
+  /* Kompliment-Karte */
+  .compliment{
     margin-top:20px;
     max-width:520px;width:100%;
     background:rgba(255,250,242,.62);
@@ -146,46 +146,23 @@
     padding:22px 20px 18px;
     opacity:0;
     animation:riseIn .9s ease forwards 1s;
-    text-align:left;
-    font-size:clamp(14px,3.5vw,16.5px);
+    text-align:center;
+    font-size:clamp(16px,4.5vw,20px);
     line-height:1.78;
-  }
-  .letter p{margin:0 0 14px;}
-  .letter p:last-child{margin-bottom:0;}
-
-  /* Klickbarer Abschluss-Satz */
-  .love-trigger{
-    display:inline-block;
     color:var(--wine1);
     font-style:italic;
-    font-weight:bold;
-    cursor:pointer;
-    position:relative;
-    border-bottom:1.5px dashed rgba(192,48,79,.45);
-    transition:color .2s;
-    -webkit-tap-highlight-color:transparent;
-    padding-bottom:1px;
+    letter-spacing:.02em;
+    text-shadow:0 1px 0 rgba(255,255,255,.5);
   }
-  .love-trigger:active{color:var(--wine-deep);}
-  .love-trigger .tap-hint{
-    position:absolute;
-    bottom:calc(100% + 6px);left:50%;
-    transform:translateX(-50%);
-    white-space:nowrap;
-    font-size:11px;font-style:normal;font-weight:normal;
+  .compliment p{margin:0 0 14px;}
+
+  /* Zähler */
+  .counter{
+    margin-top:10px;
+    font-size:14px;
     color:var(--wine2);
-    background:rgba(255,250,242,.9);
-    border:1px solid rgba(192,48,79,.2);
-    border-radius:20px;
-    padding:3px 10px;
-    pointer-events:none;
     opacity:0;
-    animation:pulseText 2s ease-in-out infinite 2s;
-  }
-  .sig{
-    display:block;text-align:right;
-    font-style:italic;color:var(--wine1);
-    margin-top:8px;
+    animation:riseIn .8s ease forwards 1.3s;
   }
 
   /* Replay */
@@ -198,7 +175,7 @@
     color:var(--wine1);
     font-size:13px;letter-spacing:.05em;
     opacity:0;
-    animation:riseIn .8s ease forwards 1.3s;
+    animation:riseIn .8s ease forwards 1.6s;
     cursor:pointer;flex-shrink:0;
   }
 
@@ -238,7 +215,7 @@
 
   <!-- INTRO -->
   <div id="intro">
-    <div class="heart-btn" id="heartBtn" role="button" aria-label="Öffnen">
+    <div class="heart-btn" id="heartBtn" role="button" aria-label="Drücke mich">
       <svg id="heartSvg" class="heart-svg" viewBox="0 0 100 88" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <linearGradient id="hGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -253,36 +230,26 @@
                  fill="rgba(255,245,230,.38)"/>
       </svg>
     </div>
-    <div class="hint">Tippe auf das Herz ♥</div>
+    <div class="hint">Drücke das Herz 10 Mal</div>
   </div>
 
   <!-- Flash -->
   <div class="flash" id="flash"></div>
 
-  <!-- FINALE / Brief -->
+  <!-- FINALE / Kompliment -->
   <div id="finale">
     <div class="headline">
-      <span class="l1">Ich liebe dich,</span>
-      <span class="l2">Prinzessin</span>
+      <span class="l1">Für meine Prinzessin</span>
+      <span class="l2">♥</span>
     </div>
 
-    <div class="letter" id="letter">
-      <p>Ich liebe dich mehr als alles andere, Prinzessin. Du bist das Beste, was mir je passiert ist, und ich freue mich mehr als alles andere darauf, dich wieder im Arm zu halten. Mit dir im Arm fühle ich mich lebendig und vollständig. Ich bin unfassbar stolz auf dich und so dankbar, dich mein nennen zu dürfen.</p>
-      <p>Vielleicht kann ich irgendwann erahnen, wie sich ein so schönes Wesen wie du gedacht hat, dass es mich so toll findet, dass es sich vollständig für mich fallen lässt – aber bis dahin genieße ich diese Tatsache einfach nur und freue mich über jede Sekunde, die ich mit dir verbringen darf.</p>
-      <p>Auch wenn mir das Fernbeziehungsding kolossal auf die Nerven geht, weil ich den ganzen Tag nichts anderes tun möchte, als dich ganz nah an mich zu ziehen, dich zu streicheln und vielleicht noch ein, zwei andere Dinge mit dir anzustellen, auf die ich am Freitag intensiver eingehen werde, freue ich mich auch ein Stück weit darüber, dass das eine weitere Erfahrung ist, die wir beide zum ersten Mal zusammen machen können. Dinge mit dir zum ersten Mal zu tun, ist noch spannender, lustiger und schöner, als sie allein zu machen, und du gibst mir zusätzlich so viel Halt, dass ich mich vor dem Ungewissen nicht mehr fürchte.</p>
-      <p>Ich freue mich so sehr, dass wir uns so früh gefunden haben und noch so viel zum ersten Mal miteinander erleben werden. Selbst wenn nicht alles davon schön wird, wird es mit dir schöner als allein. Dich in meiner Zukunft zu wissen, gibt mir mehr Vorfreude auf alles, was noch kommt, als du dir vorstellen kannst, meine Prinzessin.</p>
-      <p>Ich bin so froh, für immer deine kleinen Kicherattacken zu hören, wenn ich dich mit Küssen überhäufe, um dich ganz für mich zu haben. Oder dein kleines Zucken im Rücken, wenn du wieder kitzelig wirst. Oder das genervte „JONNYYYY", wenn ich dich auch mal ein bisschen nerve … Ohne dich würde sich mein Bizeps auch nach deinen Zähnen sehnen, mein Rücken nach deinen Händen und meine Lippen nach deinen.</p>
-      <p>Ich weiß nicht, wie ich die vier Monate überleben soll, aber ich weiß, dass ich es schaffe, weil du dabei bist.</p>
-      <p>
-        <span class="love-trigger" id="loveTrigger">
-          Ich liebe dich, meine Prinzessin.
-          <span class="tap-hint">Tippe mich ♥</span>
-        </span>
-        <span class="sig">Dein Jonny</span>
-      </p>
+    <div class="compliment" id="compliment">
+      <p>Drücke das Herz 10 Mal, um ein Kompliment zu erhalten!</p>
     </div>
 
-    <div class="replay" id="replay">↺ noch einmal</div>
+    <div class="counter" id="counter">0/10</div>
+
+    <div class="replay" id="replay">↺ Neustart</div>
   </div>
 </div>
 
@@ -307,9 +274,33 @@
   var flash       = document.getElementById('flash');
   var intro       = document.getElementById('intro');
   var finale      = document.getElementById('finale');
-  var loveTrigger = document.getElementById('loveTrigger');
+  var compliment  = document.getElementById('compliment');
+  var counter     = document.getElementById('counter');
   var replay      = document.getElementById('replay');
+  var clickCount  = 0;
+  var maxClicks   = 10;
   var opened      = false;
+
+  // Komplimente-Array
+  const compliments = [
+    "Du bist wunderschön <3",
+    "Ich liebe dich <3",
+    "Du bist das beste was mir je passiert ist <3",
+    "Mau <3",
+    "I woof you <3",
+    "Ich lieeeebe dichhhh <3",
+    "Meins <3",
+    "Die beste Ballbegleitung der Welt <3",
+    "Mein Mädchen <3",
+    "Mutter meiner Katzenkinder <3",
+    "Dein lächeln ist alles für mich Mäuschen <3",
+    "Du bist meine Welt <3",
+    "Mein Engel <3",
+    "Meine Prinzessin <3",
+    "Du bist fantastisch <3",
+    "Du bist atemberaubend <3",
+    "Du schaffst das <3"
+  ];
 
   /* ── Herz öffnen ── */
   function openHeart(e){
@@ -382,9 +373,13 @@
     }
   }
 
-  function onLoveTap(e){
+  /* ── Herz-Click-Handler ── */
+  function handleHeartClick(e){
     e.preventDefault();
     e.stopPropagation();
+
+    clickCount++;
+    counter.textContent = clickCount + '/' + maxClicks;
 
     // Koordinaten des Tipps
     var cx, cy;
@@ -399,16 +394,40 @@
     spawnBurst(cx, cy);
     spawnFloating();
 
-    // Kurze Puls-Animation auf dem Text
-    loveTrigger.style.transition = 'transform .15s ease';
-    loveTrigger.style.transform  = 'scale(1.12)';
+    // Kurze Puls-Animation auf dem Herz
+    heartSvg.style.transition = 'transform .15s ease';
+    heartSvg.style.transform  = 'scale(0.95)';
     setTimeout(function(){
-      loveTrigger.style.transform = 'scale(1)';
+      heartSvg.style.transform = 'scale(1)';
     }, 180);
+
+    // Wenn 10 Klicks erreicht
+    if(clickCount >= maxClicks){
+      // Zufälliges Kompliment auswählen
+      const randomIndex = Math.floor(Math.random() * compliments.length);
+      const randomCompliment = compliments[randomIndex];
+
+      // Kompliment anzeigen
+      compliment.innerHTML = `<p>${randomCompliment}</p>`;
+
+      // Animation für Kompliment
+      setTimeout(() => {
+        compliment.style.opacity = '1';
+      }, 100);
+
+      // Zähler animieren
+      setTimeout(() => {
+        counter.style.opacity = '1';
+      }, 100);
+
+      // Deaktiviere weiteres Klicken
+      heartBtn.removeEventListener('click', handleHeartClick);
+      heartBtn.removeEventListener('touchstart', handleHeartClick);
+    }
   }
 
-  loveTrigger.addEventListener('click',      onLoveTap);
-  loveTrigger.addEventListener('touchstart', onLoveTap, {passive:false});
+  heartBtn.addEventListener('click',      handleHeartClick);
+  heartBtn.addEventListener('touchstart', handleHeartClick, {passive:false});
 
   /* ── Replay ── */
   replay.addEventListener('click', function(){
@@ -420,8 +439,15 @@
     flash.classList.remove('go');
     heartSvg.classList.remove('shrink');
     opened = false;
+    clickCount = 0;
+    counter.textContent = '0/10';
+    compliment.innerHTML = '<p>Drücke das Herz 10 Mal, um ein Kompliment zu erhalten!</p>';
     void heartSvg.offsetWidth;
     intro.classList.remove('hidden');
+    
+    // Reaktiviere Klick-Handler
+    heartBtn.addEventListener('click',      handleHeartClick);
+    heartBtn.addEventListener('touchstart', handleHeartClick, {passive:false});
   });
 
 })();

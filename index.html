@@ -429,7 +429,7 @@
   heartBtn.addEventListener('click',      handleHeartClick);
   heartBtn.addEventListener('touchstart', handleHeartClick, {passive:false});
 
-  /* ── Replay ── */
+  /* ─ Replay ─ */
   replay.addEventListener('click', function(){
     document.querySelectorAll('.fx-heart,.burst-heart').forEach(function(el){
       if(el.parentNode) el.remove();

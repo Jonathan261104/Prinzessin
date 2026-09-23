@@ -349,8 +349,7 @@
     setTimeout(function(){ flash.classList.add('go'); }, 280);
   }
 
-  heartBtn.addEventListener('click',      openHeart);
-  heartBtn.addEventListener('touchstart', openHeart, {passive:false});
+  heartBtn.addEventListener('touchstart', handleHeartClick, {passive: false});
 
   /* ── Herzen vom Trigger ── */
   var emojis = ['♥','❤','♡','💕'];
@@ -410,9 +409,19 @@
     }, 3000);
   }
 
+  /* ── Herz-Click-Handler (mobile-optimiert) ── */
   function handleHeartClick(e){
     e.preventDefault();
     e.stopPropagation();
+
+    var cx, cy;
+    if (e.touches && e.touches.length) {
+      cx = e.touches[0].clientX;
+      cy = e.touches[0].clientY;
+    } else {
+      cx = e.clientX;
+      cy = e.clientY;
+    }
 
     // Wenn das Spiel noch nicht gestartet ist → Starte den Timer
     if (!gameActive) {
@@ -444,7 +453,6 @@
         heartSvg.style.transform = 'scale(1)';
       }, 180);
 
-      // ✅ Öffne das Finale jetzt **nicht mehr hier** – nur nach 10 Klicks
       return;
     }
 
@@ -460,23 +468,14 @@
     }, 180);
 
     // Koordinaten des Tipps
-    var cx, cy;
-    if(e.touches && e.touches.length){
-      cx = e.touches[0].clientX;
-      cy = e.touches[0].clientY;
-    } else {
-      cx = e.clientX;
-      cy = e.clientY;
-    }
-
     spawnBurst(cx, cy);
     spawnFloating();
 
     // Wenn 10 Klicks erreicht → Erfolg!
-    if(clickCount >= maxClicks){
+    if (clickCount >= maxClicks) {
       if (timerId) clearTimeout(timerId);
 
-      // ✅ Öffne das Finale **hier** – **nach 10 Klicks**
+      // ✅ Öffne das Finale
       intro.classList.add('hidden');
       finale.classList.add('show');
 
@@ -493,13 +492,10 @@
       spawnCat();
 
       // Deaktiviere weiteres Klicken
-      heartBtn.removeEventListener('click', handleHeartClick);
       heartBtn.removeEventListener('touchstart', handleHeartClick);
+      heartBtn.style.pointerEvents = "none";
     }
   }
-
-  heartBtn.addEventListener('click', handleHeartClick);
-  heartBtn.addEventListener('touchstart', handleHeartClick, {passive:false});
 
   /* ── Replay ── */
   replay.addEventListener('click', function(){
@@ -521,10 +517,10 @@
     countdownEl.style.opacity = 0;
     void heartSvg.offsetWidth;
     intro.classList.remove('hidden');
+    heartBtn.style.pointerEvents = "auto"; // ✅ Sicherheit
 
     // Reaktiviere Klick-Handler
-    heartBtn.addEventListener('click', handleHeartClick);
-    heartBtn.addEventListener('touchstart', handleHeartClick, {passive:false});
+    heartBtn.addEventListener('touchstart', handleHeartClick, {passive: false});
   });
 
 })();
